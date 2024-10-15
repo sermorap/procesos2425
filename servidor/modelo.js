@@ -5,7 +5,7 @@ function Sistema(){
     this.agregarUsuario=function(nick){
         let res={"nick":-1};
         if(!nick){
-            return res;    
+            return res;        
         }
         if(!this.usuarios[nick]){
             this.usuarios[nick]=new Usuario(nick);

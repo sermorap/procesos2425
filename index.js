@@ -22,13 +22,6 @@ app.get("/agregarUsuario/:nick",function(request,response){
     response.send(res);
 });
 
-// Eliminar usuario
-app.get("/eliminarUsuario/:nick", function(request, response) {
-    let nick = request.params.nick;
-    let res = sistema.eliminarUsuario(nick);
-    response.send(res);
-});
-
 // Número de usuarios
 app.get("/numeroUsuarios", function(request, response) {
     let numUsuarios = sistema.numeroUsuarios();
@@ -37,19 +30,22 @@ app.get("/numeroUsuarios", function(request, response) {
 
 // Obtener la lista de usuarios
 app.get("/obtenerUsuarios", function(request, response) {
-    let usuarios = sistema.obtenerUsuarios();
-    response.json(usuarios);  // Usamos response.json para enviar un objeto como respuesta.
+    let lista = sistema.obtenerUsuarios();
+    response.send(lista);
+});
+
+// Eliminar usuario
+app.get("/eliminarUsuario/:nick", function(request, response) {
+    let nick = request.params.nick;
+    let res = sistema.eliminarUsuario(nick);
+    response.send(res);
 });
 
 // Verificar si un usuario está activo
 app.get("/usuarioActivo/:nick", function(request, response) {
     let nick = request.params.nick;
     let activo = sistema.usuarioActivo(nick);
-    if (activo) {
-        response.send("El usuario " + nick + " está activo.");
-    } else {
-        response.send("El usuario " + nick + " no está activo.");
-    }
+    response.activo(activo ? `El usuario ${nick} está activo `: `El usuario ${nick} no está activo`)
 });
 
 app.listen(PORT, () => {
